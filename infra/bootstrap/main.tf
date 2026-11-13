@@ -12,7 +12,7 @@ provider "aws" {
   region = "eu-west-3"
   default_tags {
     tags = {
-      Project     = "gatekeeper"
+      Project     = "gatekeeper2"
       Owner       = "ishaan"
       Environment = "lab"
     }
@@ -26,7 +26,7 @@ resource "aws_s3_bucket" "state" {
   #checkov:skip=CKV_AWS_144:Single-region lab; versioning already allows rollback and replication would add a second bucket and cost
   #checkov:skip=CKV_AWS_18:Single-user lab bucket; access logging needs a second log bucket that would itself need hardening
   #checkov:skip=CKV2_AWS_62:No consumer for bucket event notifications
-  bucket = "gatekeeper-tfstate-${data.aws_caller_identity.current.account_id}"
+  bucket = "gatekeeper2-tfstate-${data.aws_caller_identity.current.account_id}"
 }
 
 resource "aws_s3_bucket_versioning" "state" {

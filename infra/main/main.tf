@@ -7,8 +7,8 @@ terraform {
     }
   }
   backend "s3" {
-    bucket       = "gatekeeper-tfstate-843109108746"
-    key          = "gatekeeper/main.tfstate"
+    bucket       = "gatekeeper2-tfstate-843109108746"
+    key          = "gatekeeper2/main.tfstate"
     region       = "eu-west-3"
     encrypt      = true
     use_lockfile = true
@@ -19,7 +19,7 @@ provider "aws" {
   region = "eu-west-3"
   default_tags {
     tags = {
-      Project     = "gatekeeper"
+      Project     = "gatekeeper2"
       Owner       = "ishaan"
       Environment = "lab"
     }
@@ -28,7 +28,7 @@ provider "aws" {
 
 resource "aws_ecr_repository" "gatekeeper" {
   #checkov:skip=CKV_AWS_136:Repository is encrypted with AES256 at rest; a customer-managed KMS key adds about 1 EUR/month and key-policy upkeep, not justified for a lab
-  name                 = "gatekeeper"
+  name                 = "gatekeeper2"
   image_tag_mutability = "IMMUTABLE"
 
   image_scanning_configuration {
@@ -63,7 +63,7 @@ output "ecr_repository_url" {
 variable "github_repo" {
   description = "GitHub repo allowed to push images, as owner/name"
   type        = string
-  default     = "Ishaan-03/gatekeeper"
+  default     = "Ishaan-03/Gatekeeper-"
 }
 
 data "aws_iam_openid_connect_provider" "github" {
@@ -91,7 +91,7 @@ data "aws_iam_policy_document" "gha_trust" {
 }
 
 resource "aws_iam_role" "pipeline" {
-  name               = "gatekeeper-pipeline"
+  name               = "gatekeeper2-pipeline"
   assume_role_policy = data.aws_iam_policy_document.gha_trust.json
 }
 
